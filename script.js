@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
     initSearch();
     initCounter();
     initModal();
-    initCounterAnimation();
+    initGrowthGraph();
+    initTypingEffect();
     initScrollToTop();
 });
 
@@ -12,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function initThemeSwitcher() {
     const themeSelect = document.getElementById('theme-select');
     
-    const savedTheme = localStorage.getItem('theme') || 'dark';
+    const savedTheme = localStorage.getItem('theme') || 'dark-old';
     themeSelect.value = savedTheme;
     document.body.className = 'theme-' + savedTheme;
     
@@ -21,6 +22,32 @@ function initThemeSwitcher() {
         document.body.className = 'theme-' + theme;
         localStorage.setItem('theme', theme);
     });
+}
+
+// === ЭФФЕКТ ПЕЧАТАЮЩЕЙСЯ МАШИНКИ ===
+function initTypingEffect() {
+    const textElement = document.getElementById('typing-text');
+    const originalText = textElement.textContent;
+    textElement.textContent = '';
+    
+    let charIndex = 0;
+    const typingSpeed = 30; // скорость печати в ms
+    const cursor = '|';
+    
+    function typeWriter() {
+        if (charIndex < originalText.length) {
+            // Добавляем мигающий курсор
+            textElement.textContent = originalText.substring(0, charIndex + 1) + cursor;
+            charIndex++;
+            setTimeout(typeWriter, typingSpeed);
+        } else {
+            // Убираем курсор после завершения
+            textElement.textContent = originalText;
+        }
+    }
+    
+    // Запускаем с задержкой для лучшего UX
+    setTimeout(typeWriter, 1000);
 }
 
 // === УСЛУГИ С КНОПКАМИ ЗАКАЗАТЬ ===
@@ -145,7 +172,7 @@ function initSearch() {
             );
         }
         
-        renderServices(filtereredServices);
+        renderServices(filteredServices);
     });
 }
 
@@ -154,12 +181,12 @@ function initCounter() {
     const counterElement = document.getElementById('subs-counter');
     let currentCount = 1283417;
     
-    animateCounter(1000000, currentCount, 1000); // Уменьшил время анимации с 1500 до 1000
+    animateCounter(1000000, currentCount, 1000);
     
     setInterval(() => {
-        currentCount += Math.floor(Math.random() * 15) + 8; // Увеличил прирост с 3-8 до 8-23
+        currentCount += Math.floor(Math.random() * 15) + 8;
         counterElement.textContent = formatNumber(currentCount);
-    }, 2000); // Уменьшил интервал с 3000 до 2000
+    }, 2000);
     
     function animateCounter(start, end, duration) {
         let startTime = null;
@@ -185,40 +212,80 @@ function initCounter() {
     }
 }
 
-// === АНИМАЦИЯ РОСТА ПОДПИСЧИКОВ ===
-function initCounterAnimation() {
-    const animationContainer = document.getElementById('counter-animation');
+// === АНИМИРОВАННЫЙ ГРАФИК СТОЛБЦОВ ===
+function initGrowthGraph() {
+    const canvas = document.getElementById('growth-graph');
+    const ctx = canvas.getContext('2d');
     
-    function createFloatingElement() {
-        const element = document.createElement('div');
-        element.className = 'floating-element';
-        
-        // Случайный выбор иконки
-        const icons = ['fas fa-user-plus', 'fas fa-heart', 'fas fa-eye', 'fas fa-share', 'fas fa-rocket'];
-        const randomIcon = icons[Math.floor(Math.random() * icons.length)];
-        
-        element.innerHTML = `<i class="${randomIcon}"></i>`;
-        
-        // Случайная позиция
-        const left = Math.random() * 100;
-        element.style.left = left + '%';
-        
-        // Случайная задержка
-        const delay = Math.random() * 2;
-        element.style.animationDelay = delay + 's';
-        
-        animationContainer.appendChild(element);
-        
-        // Удаляем элемент после анимации
-        setTimeout(() => {
-            if (element.parentNode) {
-                element.parentNode.removeChild(element);
-            }
-        }, 3000);
+    // Устанавливаем правильные размеры
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    
+    const width = canvas.width;
+    const height = canvas.height;
+    const barCount = 8;
+    const barWidth = (width - 20) / barCount;
+    let bars = [];
+    
+    // Инициализируем столбцы
+    for (let i = 0; i < barCount; i++) {
+        bars.push({
+            x: i * barWidth + 10,
+            height: Math.random() * (height - 20) + 10,
+            targetHeight: Math.random() * (height - 20) + 10,
+            speed: 0.05 + Math.random() * 0.1
+        });
     }
     
-    // Создаём новые элементы каждые 300ms
-    setInterval(createFloatingElement, 300);
+    function drawGraph() {
+        // Очищаем canvas
+        ctx.clearRect(0, 0, width, height);
+        
+        // Рисуем фон
+        ctx.fillStyle = 'rgba(0, 188, 212, 0.1)';
+        ctx.fillRect(0, 0, width, height);
+        
+        // Анимируем и рисуем столбцы
+        bars.forEach((bar, index) => {
+            // Плавное изменение высоты
+            bar.height += (bar.targetHeight - bar.height) * bar.speed;
+            
+            // Если близко к целевой высоте, задаём новую цель
+            if (Math.abs(bar.targetHeight - bar.height) < 2) {
+                bar.targetHeight = Math.random() * (height - 20) + 10;
+            }
+            
+            // Градиент для столбца
+            const gradient = ctx.createLinearGradient(0, height, 0, 0);
+            gradient.addColorStop(0, '#00bcd4');
+            gradient.addColorStop(1, '#80deea');
+            
+            ctx.fillStyle = gradient;
+            
+            // Рисуем столбец
+            ctx.fillRect(bar.x, height - bar.height, barWidth - 2, bar.height);
+            
+            // Добавляем свечение
+            ctx.shadowColor = '#00bcd4';
+            ctx.shadowBlur = 10;
+            ctx.fillRect(bar.x, height - bar.height, barWidth - 2, bar.height);
+            ctx.shadowBlur = 0;
+            
+            // Рисуем верхнюю грань столбца
+            ctx.fillStyle = '#e0f7fa';
+            ctx.fillRect(bar.x, height - bar.height, barWidth - 2, 2);
+        });
+        
+        requestAnimationFrame(drawGraph);
+    }
+    
+    drawGraph();
+    
+    // Обновляем размеры при изменении размера окна
+    window.addEventListener('resize', function() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+    });
 }
 
 // === КНОПКА "ВВЕРХ" ===
