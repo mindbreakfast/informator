@@ -23,9 +23,25 @@
     background: var(--accent-hover);
 }
 
-/* === ПЕРЕМЕННЫЕ ДЛЯ ТРЕХ ТЕМ === */
-/* ТЁМНАЯ БИРЮЗОВАЯ (по умолчанию) */
+/* === ПЕРЕМЕННЫЕ ДЛЯ ЧЕТЫРЕХ ТЕМ === */
+/* ЧЁРНО-БИРЮЗОВАЯ (НОВАЯ, по умолчанию) */
 :root {
+    --bg-primary: #000000;
+    --bg-secondary: #0a0a0a;
+    --text-primary: #00ffd5;
+    --text-secondary: #00ccaa;
+    --accent-color: #00ffd5;
+    --accent-hover: #00ccaa;
+    --accent-gradient: linear-gradient(135deg, #00ffd5, #009988);
+    --card-bg: rgba(10, 25, 35, 0.95);
+    --card-shadow: 0 8px 32px rgba(0, 255, 213, 0.3);
+    --neon-glow: 0 0 30px rgba(0, 255, 213, 0.5);
+    --card-border: 1px solid rgba(0, 255, 213, 0.3);
+    --pulse-glow: 0 0 20px rgba(0, 255, 213, 0.7);
+}
+
+/* ТЁМНАЯ БИРЮЗОВАЯ */
+.theme-dark {
     --bg-primary: #0a1929;
     --bg-secondary: #132f4c;
     --text-primary: #e0f7fa;
@@ -36,6 +52,8 @@
     --card-bg: rgba(19, 47, 76, 0.9);
     --card-shadow: 0 8px 32px rgba(0, 188, 212, 0.2);
     --neon-glow: 0 0 20px rgba(0, 188, 212, 0.4);
+    --card-border: 1px solid rgba(0, 188, 212, 0.3);
+    --pulse-glow: 0 0 15px rgba(0, 188, 212, 0.5);
 }
 
 /* МАТРИЧНАЯ ТЕМА */
@@ -50,6 +68,8 @@
     --card-bg: rgba(17, 34, 17, 0.9);
     --card-shadow: 0 8px 32px rgba(0, 255, 65, 0.2);
     --neon-glow: 0 0 20px rgba(0, 255, 65, 0.4);
+    --card-border: 1px solid rgba(0, 255, 65, 0.3);
+    --pulse-glow: 0 0 15px rgba(0, 255, 65, 0.5);
 }
 
 /* КРИСТАЛЬНАЯ ТЕМА */
@@ -64,6 +84,8 @@
     --card-bg: rgba(255, 255, 255, 0.9);
     --card-shadow: 0 8px 32px rgba(0, 184, 148, 0.15);
     --neon-glow: 0 0 20px rgba(0, 184, 148, 0.2);
+    --card-border: 1px solid rgba(0, 184, 148, 0.2);
+    --pulse-glow: 0 0 10px rgba(0, 184, 148, 0.3);
 }
 
 /* Фон для кристальной темы */
@@ -78,6 +100,27 @@
         radial-gradient(circle at 20% 80%, rgba(120, 219, 226, 0.1) 0%, transparent 50%),
         radial-gradient(circle at 80% 20%, rgba(152, 231, 156, 0.1) 0%, transparent 50%);
     z-index: -1;
+}
+
+/* Анимированный фон для чёрно-бирюзовой темы */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(0, 255, 213, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(0, 204, 170, 0.03) 0%, transparent 50%),
+        linear-gradient(45deg, rgba(0, 0, 0, 0.9) 0%, rgba(10, 10, 10, 0.95) 100%);
+    z-index: -1;
+    animation: backgroundPulse 20s ease-in-out infinite;
+}
+
+@keyframes backgroundPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
 }
 
 /* === ОСНОВНЫЕ СТИЛИ === */
@@ -98,13 +141,14 @@ body {
 
 /* === ШАПКА === */
 header {
-    background: var(--bg-secondary);
+    background: rgba(10, 10, 10, 0.95);
     padding: 15px 0;
     border-bottom: 1px solid var(--accent-color);
     position: sticky;
     top: 0;
     z-index: 1000;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 4px 30px rgba(0, 255, 213, 0.1);
 }
 
 header .container {
@@ -123,11 +167,19 @@ header .container {
     background-clip: text;
     margin-bottom: 2px;
     font-weight: 700;
+    text-shadow: var(--neon-glow);
+    animation: textGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes textGlow {
+    from { text-shadow: 0 0 10px rgba(0, 255, 213, 0.5); }
+    to { text-shadow: 0 0 20px rgba(0, 255, 213, 0.8), 0 0 30px rgba(0, 255, 213, 0.6); }
 }
 
 .logo p {
     color: var(--text-secondary);
     font-size: 0.8rem;
+    letter-spacing: 1px;
 }
 
 /* Кнопки соцсетей */
@@ -147,11 +199,29 @@ header .container {
     color: white;
     font-size: 1rem;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.social-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.social-btn:hover::before {
+    left: 100%;
 }
 
 .social-btn:hover {
-    transform: translateY(-2px) scale(1.1);
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: var(--neon-glow);
 }
 
 .youtube { background: #ff0000; }
@@ -162,13 +232,14 @@ header .container {
 /* Селектор тем */
 .theme-selector select {
     background: var(--card-bg);
-    border: 1px solid var(--accent-color);
+    border: var(--card-border);
     border-radius: 8px;
     padding: 8px 12px;
     color: var(--text-primary);
     font-size: 0.9rem;
     cursor: pointer;
     backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
 }
 
 .theme-selector select:focus {
@@ -180,6 +251,19 @@ header .container {
 .hero {
     padding: 40px 0;
     background: var(--bg-secondary);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent 0%, rgba(0, 255, 213, 0.02) 100%);
+    pointer-events: none;
 }
 
 .hero-content {
@@ -187,6 +271,8 @@ header .container {
     grid-template-columns: 2fr 1fr;
     gap: 40px;
     align-items: start;
+    position: relative;
+    z-index: 1;
 }
 
 .about-text {
@@ -201,6 +287,7 @@ header .container {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     font-weight: 600;
+    text-shadow: var(--neon-glow);
 }
 
 .about-text p {
@@ -208,6 +295,16 @@ header .container {
     color: var(--text-secondary);
     font-size: 0.95rem;
     line-height: 1.5;
+    position: relative;
+    padding-left: 15px;
+}
+
+.about-text p::before {
+    content: '▸';
+    color: var(--accent-color);
+    position: absolute;
+    left: 0;
+    font-weight: bold;
 }
 
 /* Счётчик подписчиков - УМЕНЬШЕННЫЙ */
@@ -217,10 +314,16 @@ header .container {
     border-radius: 12px;
     text-align: center;
     box-shadow: var(--card-shadow);
-    border: 1px solid var(--accent-color);
+    border: var(--card-border);
     backdrop-filter: blur(10px);
     position: sticky;
     top: 80px;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
 }
 
 .counter-title {
@@ -239,6 +342,7 @@ header .container {
     background-clip: text;
     margin-bottom: 10px;
     font-family: 'Courier New', monospace;
+    text-shadow: var(--neon-glow);
 }
 
 #growth-chart {
@@ -251,6 +355,7 @@ header .container {
 .services {
     padding: 40px 0;
     background: var(--bg-primary);
+    position: relative;
 }
 
 /* Поиск и фильтры */
@@ -268,7 +373,7 @@ header .container {
     width: 100%;
     padding: 12px 45px 12px 15px;
     background: var(--card-bg);
-    border: 1px solid var(--accent-color);
+    border: var(--card-border);
     border-radius: 20px;
     color: var(--text-primary);
     font-size: 0.9rem;
@@ -304,7 +409,7 @@ header .container {
 .filter-btn {
     padding: 8px 16px;
     background: var(--card-bg);
-    border: 1px solid var(--accent-color);
+    border: var(--card-border);
     border-radius: 15px;
     color: var(--text-primary);
     cursor: pointer;
@@ -312,6 +417,23 @@ header .container {
     backdrop-filter: blur(10px);
     font-size: 0.85rem;
     font-weight: 500;
+    position: relative;
+    overflow: hidden;
+}
+
+.filter-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 213, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.filter-btn:hover::before {
+    left: 100%;
 }
 
 .filter-btn:hover,
@@ -319,6 +441,7 @@ header .container {
     background: var(--accent-gradient);
     color: white;
     transform: translateY(-2px);
+    box-shadow: var(--neon-glow);
 }
 
 /* СЕТКА УСЛУГ - 4 КАРТОЧКИ В РЯДУ */
@@ -333,7 +456,7 @@ header .container {
     border-radius: 12px;
     overflow: hidden;
     box-shadow: var(--card-shadow);
-    border: 1px solid var(--accent-color);
+    border: var(--card-border);
     cursor: pointer;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
@@ -341,11 +464,39 @@ header .container {
     display: flex;
     flex-direction: column;
     position: relative;
+    animation: cardAppear 0.5s ease-out;
+}
+
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 255, 213, 0.1) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.service-card:hover::before {
+    opacity: 1;
 }
 
 .service-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--neon-glow);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: var(--pulse-glow);
 }
 
 .service-image {
@@ -357,6 +508,23 @@ header .container {
     justify-content: center;
     font-size: 2rem;
     color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.service-image::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.service-card:hover .service-image::before {
+    left: 100%;
 }
 
 .service-info {
@@ -377,13 +545,15 @@ header .container {
 /* ЦЕНЫ СПРАВА */
 .service-price-container {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: flex-end;
     margin-top: auto;
+    gap: 10px;
 }
 
 .price-text {
     text-align: right;
+    flex: 1;
 }
 
 .service-price {
@@ -392,6 +562,7 @@ header .container {
     color: var(--accent-color);
     font-family: 'Courier New', monospace;
     display: block;
+    text-shadow: var(--neon-glow);
 }
 
 .service-price-per {
@@ -399,6 +570,56 @@ header .container {
     color: var(--text-secondary);
     font-weight: 400;
     display: block;
+}
+
+/* === КНОПКА ЗАКАЗАТЬ НА КАРТОЧКАХ === */
+.service-card-footer {
+    padding: 15px;
+    border-top: 1px solid rgba(0, 255, 213, 0.2);
+    margin-top: auto;
+}
+
+.card-order-btn {
+    width: 100%;
+    padding: 10px 15px;
+    background: var(--accent-gradient);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-order-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.card-order-btn:hover::before {
+    left: 100%;
+}
+
+.card-order-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--pulse-glow);
+}
+
+.card-order-btn:active {
+    transform: translateY(0);
 }
 
 /* === МОДАЛЬНОЕ ОКНО === */
@@ -410,8 +631,20 @@ header .container {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    animation: modalAppear 0.3s ease-out;
+}
+
+@keyframes modalAppear {
+    from {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+    }
+    to {
+        opacity: 1;
+        backdrop-filter: blur(10px);
+    }
 }
 
 .modal-content {
@@ -421,12 +654,24 @@ header .container {
     border-radius: 15px;
     width: 90%;
     max-width: 600px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--pulse-glow);
     position: relative;
-    border: 2px solid var(--accent-color);
+    border: var(--card-border);
     max-height: 85vh;
     display: flex;
     flex-direction: column;
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 .modal-header {
@@ -436,6 +681,24 @@ header .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.modal-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+    animation: shine 3s infinite linear;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
 }
 
 .modal-header h3 {
@@ -443,6 +706,8 @@ header .container {
     font-size: 1.2rem;
     margin: 0;
     font-weight: 600;
+    position: relative;
+    z-index: 1;
 }
 
 .close-modal {
@@ -451,10 +716,12 @@ header .container {
     cursor: pointer;
     transition: all 0.3s ease;
     line-height: 1;
+    position: relative;
+    z-index: 1;
 }
 
 .close-modal:hover {
-    transform: scale(1.1);
+    transform: scale(1.1) rotate(90deg);
 }
 
 .modal-body {
@@ -492,6 +759,7 @@ header .container {
     margin-bottom: 8px;
     color: var(--text-secondary);
     font-size: 0.9rem;
+    position: relative;
 }
 
 .modal-body li::before {
@@ -508,6 +776,12 @@ header .container {
     border-left: 4px solid #ffc107;
     margin-top: 20px;
     font-size: 0.9rem;
+    animation: pulseWarning 2s infinite;
+}
+
+@keyframes pulseWarning {
+    0%, 100% { border-left-color: #ffc107; }
+    50% { border-left-color: #ff9800; }
 }
 
 .modal-footer {
@@ -527,11 +801,28 @@ header .container {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.order-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.order-btn:hover::before {
+    left: 100%;
 }
 
 .order-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--pulse-glow);
 }
 
 /* === ФУТЕР === */
@@ -539,6 +830,23 @@ footer {
     background: var(--bg-secondary);
     padding: 30px 0;
     border-top: 1px solid var(--accent-color);
+    position: relative;
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--accent-gradient);
+    animation: borderGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes borderGlow {
+    from { opacity: 0.5; }
+    to { opacity: 1; }
 }
 
 .footer-text h3 {
@@ -565,11 +873,26 @@ footer {
     text-decoration: none;
     transition: all 0.3s ease;
     font-weight: 500;
+    position: relative;
+}
+
+.contacts a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--accent-color);
+    transition: width 0.3s ease;
+}
+
+.contacts a:hover::after {
+    width: 100%;
 }
 
 .contacts a:hover {
     color: var(--text-primary);
-    text-decoration: underline;
 }
 
 /* === КНОПКА "ВВЕРХ" === */
@@ -589,11 +912,18 @@ footer {
     box-shadow: var(--neon-glow);
     z-index: 1000;
     display: none;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
 }
 
 .scroll-to-top:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 25px var(--accent-color);
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: var(--pulse-glow);
+    animation: none;
 }
 
 /* === АДАПТИВ ДЛЯ ТЕЛЕФОНОВ === */
@@ -651,6 +981,16 @@ footer {
     /* На мобильных скрываем счётчик */
     .counter-widget {
         display: none;
+    }
+    
+    .service-price-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+    
+    .price-text {
+        text-align: left;
     }
 }
 
