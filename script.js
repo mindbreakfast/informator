@@ -1,16 +1,14 @@
-// Бро, тут всё исправлено! График теперь работает как надо!
-
 document.addEventListener('DOMContentLoaded', function() {
     initThemeSwitcher();
     initServices();
     initSearch();
     initCounter();
     initModal();
-    initGrowthChart();
+    initCounterAnimation();
     initScrollToTop();
 });
 
-// === ПЕРЕКЛЮЧАТЕЛЬ ТРЕХ ТЕМ ===
+// === ПЕРЕКЛЮЧАТЕЛЬ ЧЕТЫРЕХ ТЕМ ===
 function initThemeSwitcher() {
     const themeSelect = document.getElementById('theme-select');
     
@@ -25,7 +23,7 @@ function initThemeSwitcher() {
     });
 }
 
-// === УСЛУГИ С ЗАГЛУШКАМИ ВМЕСТО КАРТИНОК ===
+// === УСЛУГИ С КНОПКАМИ ЗАКАЗАТЬ ===
 function initServices() {
     const servicesGrid = document.getElementById('services-grid');
     const filterButtons = document.getElementById('filter-buttons');
@@ -65,6 +63,12 @@ function initServices() {
                             <div class="service-price-per">${service.pricePer}</div>
                         </div>
                     </div>
+                </div>
+                <div class="service-card-footer">
+                    <button class="card-order-btn" onclick="event.stopPropagation(); orderService('${service.name}')">
+                        <i class="fas fa-shopping-cart"></i>
+                        Заказать
+                    </button>
                 </div>
             `;
             card.addEventListener('click', () => openModal(service));
@@ -141,21 +145,21 @@ function initSearch() {
             );
         }
         
-        renderServices(filteredServices);
+        renderServices(filtereredServices);
     });
 }
 
-// === СЧЁТЧИК ===
+// === СЧЁТЧИК - УСКОРЕННАЯ ВЕРСИЯ ===
 function initCounter() {
     const counterElement = document.getElementById('subs-counter');
     let currentCount = 1283417;
     
-    animateCounter(1000000, currentCount, 1500);
+    animateCounter(1000000, currentCount, 1000); // Уменьшил время анимации с 1500 до 1000
     
     setInterval(() => {
-        currentCount += Math.floor(Math.random() * 8) + 3;
+        currentCount += Math.floor(Math.random() * 15) + 8; // Увеличил прирост с 3-8 до 8-23
         counterElement.textContent = formatNumber(currentCount);
-    }, 3000);
+    }, 2000); // Уменьшил интервал с 3000 до 2000
     
     function animateCounter(start, end, duration) {
         let startTime = null;
@@ -181,73 +185,40 @@ function initCounter() {
     }
 }
 
-// === РАБОЧИЙ ГРАФИК РОСТА - ПОСТОЯННО ВИДЕН ===
-function initGrowthChart() {
-    const canvas = document.getElementById('growth-chart');
-    const ctx = canvas.getContext('2d');
+// === АНИМАЦИЯ РОСТА ПОДПИСЧИКОВ ===
+function initCounterAnimation() {
+    const animationContainer = document.getElementById('counter-animation');
     
-    let points = [];
-    const pointCount = 15;
-    let frameCount = 0;
-    
-    // Инициализируем точки с явным восходящим трендом
-    for (let i = 0; i < pointCount; i++) {
-        points.push({
-            x: i * (canvas.width / (pointCount - 1)),
-            y: canvas.height - 15 - (i * 3)
-        });
+    function createFloatingElement() {
+        const element = document.createElement('div');
+        element.className = 'floating-element';
+        
+        // Случайный выбор иконки
+        const icons = ['fas fa-user-plus', 'fas fa-heart', 'fas fa-eye', 'fas fa-share', 'fas fa-rocket'];
+        const randomIcon = icons[Math.floor(Math.random() * icons.length)];
+        
+        element.innerHTML = `<i class="${randomIcon}"></i>`;
+        
+        // Случайная позиция
+        const left = Math.random() * 100;
+        element.style.left = left + '%';
+        
+        // Случайная задержка
+        const delay = Math.random() * 2;
+        element.style.animationDelay = delay + 's';
+        
+        animationContainer.appendChild(element);
+        
+        // Удаляем элемент после анимации
+        setTimeout(() => {
+            if (element.parentNode) {
+                element.parentNode.removeChild(element);
+            }
+        }, 3000);
     }
     
-    function drawChart() {
-        frameCount++;
-        
-        // Очищаем canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        // Рисуем плавную линию графика
-        ctx.beginPath();
-        ctx.moveTo(points[0].x, points[0].y);
-        
-        for (let i = 1; i < points.length; i++) {
-            const xc = (points[i].x + points[i - 1].x) / 2;
-            const yc = (points[i].y + points[i - 1].y) / 2;
-            ctx.quadraticCurveTo(points[i - 1].x, points[i - 1].y, xc, yc);
-        }
-        
-        ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent-color');
-        ctx.lineWidth = 3;
-        ctx.stroke();
-        
-        // Градиент под линией
-        const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-        const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color');
-        gradient.addColorStop(0, accentColor + '40');
-        gradient.addColorStop(1, 'transparent');
-        
-        ctx.lineTo(points[points.length - 1].x, canvas.height);
-        ctx.lineTo(0, canvas.height);
-        ctx.closePath();
-        ctx.fillStyle = gradient;
-        ctx.fill();
-        
-        // Медленная анимация - двигаем точки каждые 10 кадров
-        if (frameCount % 10 === 0) {
-            points.shift();
-            
-            const lastPoint = points[points.length - 1];
-            // Гарантируем восходящий тренд
-            const newY = Math.max(10, Math.min(canvas.height - 10, lastPoint.y - 1 + Math.random() * 3));
-            
-            points.push({
-                x: lastPoint.x + (canvas.width / (pointCount - 1)),
-                y: newY
-            });
-        }
-        
-        requestAnimationFrame(drawChart);
-    }
-    
-    drawChart();
+    // Создаём новые элементы каждые 300ms
+    setInterval(createFloatingElement, 300);
 }
 
 // === КНОПКА "ВВЕРХ" ===
@@ -317,17 +288,7 @@ function closeModal() {
     document.body.style.overflow = 'auto';
 }
 
-// Функция для определения иконки услуги
-function getServiceIcon(categories) {
-    if (categories.includes('telegram')) return 'fab fa-telegram';
-    if (categories.includes('vk') || categories.includes('вконтакте')) return 'fab fa-vk';
-    if (categories.includes('youtube')) return 'fab fa-youtube';
-    if (categories.includes('tiktok')) return 'fab fa-tiktok';
-    if (categories.includes('spotify')) return 'fab fa-spotify';
-    if (categories.includes('reddit')) return 'fab fa-reddit';
-    if (categories.includes('просмотры')) return 'fas fa-eye';
-    if (categories.includes('подписчики')) return 'fas fa-users';
-    if (categories.includes('лайки') || categories.includes('реакции')) return 'fas fa-heart';
-    if (categories.includes('рассылка')) return 'fas fa-envelope';
-    return 'fas fa-rocket';
+// === ФУНКЦИЯ ЗАКАЗА УСЛУГИ ===
+function orderService(serviceName) {
+    alert(`🎉 Отлично! Вы выбрали услугу: "${serviceName}"\n\n💬 Свяжитесь со мной в Telegram: @informator_one для оформления заказа!\n\n📞 Я отвечу в течение 5-10 минут!`);
 }
