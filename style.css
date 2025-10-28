@@ -23,9 +23,23 @@
     background: var(--accent-hover);
 }
 
-/* === ПЕРЕМЕННЫЕ ДЛЯ ТЕМ === */
-/* Матричная тема (по умолчанию) - СУПЕР ТЁМНАЯ */
+/* === ПЕРЕМЕННЫЕ ДЛЯ ТРЕХ ТЕМ === */
+/* ТЁМНАЯ БИРЮЗОВАЯ (по умолчанию) */
 :root {
+    --bg-primary: #0a1929;
+    --bg-secondary: #132f4c;
+    --text-primary: #e0f7fa;
+    --text-secondary: #80deea;
+    --accent-color: #00bcd4;
+    --accent-hover: #0097a7;
+    --accent-gradient: linear-gradient(135deg, #00bcd4, #00838f);
+    --card-bg: rgba(19, 47, 76, 0.9);
+    --card-shadow: 0 8px 32px rgba(0, 188, 212, 0.2);
+    --neon-glow: 0 0 20px rgba(0, 188, 212, 0.4);
+}
+
+/* МАТРИЧНАЯ ТЕМА */
+.theme-matrix {
     --bg-primary: #0a0a0a;
     --bg-secondary: #111111;
     --text-primary: #00ff41;
@@ -34,24 +48,22 @@
     --accent-hover: #00cc33;
     --accent-gradient: linear-gradient(135deg, #00ff41, #00cc33);
     --card-bg: rgba(17, 34, 17, 0.9);
-    --card-shadow: 0 0 30px rgba(0, 255, 65, 0.2);
-    --neon-glow: 0 0 30px rgba(0, 255, 65, 0.5);
-    --matrix-effect: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23000"/><text x="50" y="50" font-family="monospace" font-size="10" fill="%23008000" text-anchor="middle" dominant-baseline="middle">01</text></svg>');
+    --card-shadow: 0 8px 32px rgba(0, 255, 65, 0.2);
+    --neon-glow: 0 0 20px rgba(0, 255, 65, 0.4);
 }
 
-/* Кристальная тема - СОВСЕМ ДРУГОЙ ДИЗАЙН */
+/* КРИСТАЛЬНАЯ ТЕМА */
 .theme-crystal {
-    --bg-primary: #f0f8ff;
+    --bg-primary: #f8fdff;
     --bg-secondary: #ffffff;
     --text-primary: #2c3e50;
     --text-secondary: #7f8c8d;
     --accent-color: #00b894;
     --accent-hover: #00a085;
     --accent-gradient: linear-gradient(135deg, #00b894, #00a085);
-    --card-bg: rgba(255, 255, 255, 0.7);
+    --card-bg: rgba(255, 255, 255, 0.9);
     --card-shadow: 0 8px 32px rgba(0, 184, 148, 0.15);
-    --neon-glow: 0 0 20px rgba(0, 184, 148, 0.3);
-    --matrix-effect: none;
+    --neon-glow: 0 0 20px rgba(0, 184, 148, 0.2);
 }
 
 /* Фон для кристальной темы */
@@ -64,29 +76,8 @@
     height: 100%;
     background: 
         radial-gradient(circle at 20% 80%, rgba(120, 219, 226, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(152, 231, 156, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(253, 203, 110, 0.1) 0%, transparent 50%);
+        radial-gradient(circle at 80% 20%, rgba(152, 231, 156, 0.1) 0%, transparent 50%);
     z-index: -1;
-}
-
-/* Матричный фон для тёмной темы */
-.theme-matrix::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: var(--matrix-effect);
-    background-size: 200px 200px;
-    opacity: 0.1;
-    z-index: -1;
-    animation: matrixMove 20s linear infinite;
-}
-
-@keyframes matrixMove {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-200px); }
 }
 
 /* === ОСНОВНЫЕ СТИЛИ === */
@@ -107,8 +98,8 @@ body {
 
 /* === ШАПКА === */
 header {
-    background: rgba(17, 17, 17, 0.95);
-    padding: 20px 0;
+    background: var(--bg-secondary);
+    padding: 15px 0;
     border-bottom: 1px solid var(--accent-color);
     position: sticky;
     top: 0;
@@ -116,56 +107,51 @@ header {
     backdrop-filter: blur(10px);
 }
 
-.theme-crystal header {
-    background: rgba(255, 255, 255, 0.95);
-    border-bottom: 1px solid rgba(0, 184, 148, 0.3);
-}
-
 header .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+    gap: 15px;
 }
 
 .logo h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
     background: var(--accent-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin-bottom: 5px;
-    font-weight: 800;
+    margin-bottom: 2px;
+    font-weight: 700;
 }
 
 .logo p {
     color: var(--text-secondary);
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }
 
 /* Кнопки соцсетей */
 .social-links {
     display: flex;
-    gap: 10px;
+    gap: 8px;
 }
 
 .social-btn {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     text-decoration: none;
     color: white;
-    font-size: 1.2rem;
+    font-size: 1rem;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .social-btn:hover {
-    transform: translateY(-3px) scale(1.1);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px) scale(1.1);
 }
 
 .youtube { background: #ff0000; }
@@ -173,45 +159,33 @@ header .container {
 .telegram { background: #0088cc; }
 .tiktok { background: #000000; }
 
-/* Переключатель тем */
-.theme-switcher {
-    margin-left: 20px;
-}
-
-.theme-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
+/* Селектор тем */
+.theme-selector select {
     background: var(--card-bg);
-    border-radius: 25px;
-    cursor: pointer;
-    transition: all 0.3s ease;
     border: 1px solid var(--accent-color);
-    box-shadow: var(--neon-glow);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    cursor: pointer;
     backdrop-filter: blur(10px);
 }
 
-.theme-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 30px var(--accent-color);
-}
-
-.theme-icon {
-    font-size: 1.1rem;
+.theme-selector select:focus {
+    outline: none;
+    box-shadow: var(--neon-glow);
 }
 
 /* === ГЛАВНЫЙ ЭКРАН === */
 .hero {
-    padding: 80px 0;
+    padding: 40px 0;
     background: var(--bg-secondary);
-    position: relative;
 }
 
 .hero-content {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    gap: 60px;
+    gap: 40px;
     align-items: start;
 }
 
@@ -220,8 +194,8 @@ header .container {
 }
 
 .small-title {
-    font-size: 1.8rem !important;
-    margin-bottom: 25px;
+    font-size: 1.4rem !important;
+    margin-bottom: 15px;
     background: var(--accent-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -230,83 +204,81 @@ header .container {
 }
 
 .about-text p {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     color: var(--text-secondary);
-    font-size: 1.1rem;
-    line-height: 1.8;
+    font-size: 0.95rem;
+    line-height: 1.5;
 }
 
-/* Счётчик подписчиков */
+/* Счётчик подписчиков - УМЕНЬШЕННЫЙ */
 .counter-widget {
     background: var(--card-bg);
-    padding: 30px;
-    border-radius: 20px;
+    padding: 20px;
+    border-radius: 12px;
     text-align: center;
     box-shadow: var(--card-shadow);
     border: 1px solid var(--accent-color);
     backdrop-filter: blur(10px);
     position: sticky;
-    top: 120px;
+    top: 80px;
 }
 
 .counter-title {
-    font-size: 1.1rem;
-    margin-bottom: 20px;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
     color: var(--text-secondary);
     font-weight: 500;
 }
 
 .counter-number {
-    font-size: 3rem;
-    font-weight: 800;
+    font-size: 1.8rem;
+    font-weight: 700;
     background: var(--accent-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     font-family: 'Courier New', monospace;
 }
 
 #growth-chart {
     width: 100%;
-    height: 80px;
-    margin-top: 15px;
+    height: 60px;
+    margin-top: 8px;
 }
 
 /* === СЕКЦИЯ УСЛУГ === */
 .services {
-    padding: 80px 0;
+    padding: 40px 0;
     background: var(--bg-primary);
 }
 
 /* Поиск и фильтры */
 .filters-section {
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
 .search-box {
     position: relative;
-    max-width: 500px;
-    margin-bottom: 30px;
+    max-width: 400px;
+    margin-bottom: 20px;
 }
 
 .search-box input {
     width: 100%;
-    padding: 18px 60px 18px 25px;
+    padding: 12px 45px 12px 15px;
     background: var(--card-bg);
-    border: 2px solid var(--accent-color);
-    border-radius: 30px;
+    border: 1px solid var(--accent-color);
+    border-radius: 20px;
     color: var(--text-primary);
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
-    box-shadow: var(--neon-glow);
 }
 
 .search-box input:focus {
     outline: none;
-    box-shadow: 0 0 30px var(--accent-color);
-    transform: scale(1.02);
+    box-shadow: var(--neon-glow);
 }
 
 .search-box input::placeholder {
@@ -315,89 +287,74 @@ header .container {
 
 .search-box i {
     position: absolute;
-    right: 25px;
+    right: 15px;
     top: 50%;
     transform: translateY(-50%);
     color: var(--accent-color);
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 
 /* Кнопки фильтров */
 .filter-buttons {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 8px;
 }
 
 .filter-btn {
-    padding: 12px 24px;
+    padding: 8px 16px;
     background: var(--card-bg);
-    border: 2px solid var(--accent-color);
-    border-radius: 25px;
+    border: 1px solid var(--accent-color);
+    border-radius: 15px;
     color: var(--text-primary);
     cursor: pointer;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
-    font-weight: 600;
-    box-shadow: var(--neon-glow);
+    font-size: 0.85rem;
+    font-weight: 500;
 }
 
 .filter-btn:hover,
 .filter-btn.active {
     background: var(--accent-gradient);
     color: white;
-    box-shadow: 0 0 25px var(--accent-color);
-    transform: translateY(-3px);
+    transform: translateY(-2px);
 }
 
-/* Сетка услуг */
+/* СЕТКА УСЛУГ - ИСПРАВЛЕННАЯ */
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
 }
 
 .service-card {
     background: var(--card-bg);
-    border-radius: 20px;
-    padding: 0;
-    box-shadow: var(--card-shadow);
-    border: 2px solid var(--accent-color);
-    cursor: pointer;
-    transition: all 0.4s ease;
-    backdrop-filter: blur(10px);
-    position: relative;
+    border-radius: 12px;
     overflow: hidden;
-}
-
-.service-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--accent-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.1), transparent);
-    transition: left 0.6s ease;
-}
-
-.service-card:hover::before {
-    left: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .service-card:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 15px 40px var(--accent-color);
+    transform: translateY(-5px);
+    box-shadow: var(--neon-glow);
 }
 
 .service-image {
     width: 100%;
-    height: 120px;
+    height: 80px;
     background: var(--accent-gradient);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 3rem;
+    font-size: 2rem;
     color: white;
 }
 
@@ -405,31 +362,36 @@ header .container {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: none; /* Скрываем картинки, используем только иконки */
 }
 
 .service-info {
-    padding: 25px;
+    padding: 15px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .service-card h3 {
-    font-size: 1.3rem;
-    margin-bottom: 15px;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
     color: var(--text-primary);
-    line-height: 1.4;
+    line-height: 1.3;
+    flex: 1;
 }
 
 .service-price {
-    font-size: 1.8rem;
-    font-weight: 800;
+    font-size: 1.3rem;
+    font-weight: 700;
     color: var(--accent-color);
-    margin-bottom: 5px;
+    margin-bottom: 3px;
     font-family: 'Courier New', monospace;
 }
 
 .service-price-per {
-    font-size: 1rem;
+    font-size: 0.8rem;
     color: var(--text-secondary);
-    font-weight: 500;
+    font-weight: 400;
 }
 
 /* === МОДАЛЬНОЕ ОКНО === */
@@ -443,39 +405,27 @@ header .container {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(5px);
-    animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
 }
 
 .modal-content {
     background: var(--bg-secondary);
-    margin: 2% auto;
+    margin: 5% auto;
     padding: 0;
-    border-radius: 20px;
+    border-radius: 15px;
     width: 90%;
-    max-width: 700px;
+    max-width: 600px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     position: relative;
-    animation: modalSlideIn 0.4s ease;
     border: 2px solid var(--accent-color);
-    max-height: 90vh;
+    max-height: 85vh;
     display: flex;
     flex-direction: column;
 }
 
-@keyframes modalSlideIn {
-    from { transform: translateY(-50px) scale(0.9); opacity: 0; }
-    to { transform: translateY(0) scale(1); opacity: 1; }
-}
-
 .modal-header {
     background: var(--accent-gradient);
-    padding: 25px 30px;
-    border-radius: 18px 18px 0 0;
+    padding: 20px;
+    border-radius: 13px 13px 0 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -483,90 +433,80 @@ header .container {
 
 .modal-header h3 {
     color: white;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     margin: 0;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .close-modal {
-    font-size: 2.5rem;
+    font-size: 2rem;
     color: white;
     cursor: pointer;
     transition: all 0.3s ease;
     line-height: 1;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
 }
 
 .close-modal:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: rotate(90deg);
+    transform: scale(1.1);
 }
 
 .modal-body {
-    padding: 30px;
+    padding: 25px;
     flex: 1;
     overflow-y: auto;
-    max-height: 60vh;
+    max-height: 50vh;
 }
 
 .modal-body h3 {
     color: var(--accent-color);
-    margin-bottom: 20px;
-    font-size: 1.4rem;
-    border-bottom: 2px solid var(--accent-color);
-    padding-bottom: 10px;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
 }
 
 .modal-body h4 {
     color: var(--text-primary);
-    margin: 25px 0 12px 0;
-    font-size: 1.2rem;
+    margin: 20px 0 10px 0;
+    font-size: 1rem;
 }
 
 .modal-body p {
-    margin-bottom: 18px;
+    margin-bottom: 12px;
     color: var(--text-secondary);
-    line-height: 1.7;
+    line-height: 1.5;
+    font-size: 0.9rem;
 }
 
 .modal-body ul {
-    margin-bottom: 25px;
-    padding-left: 25px;
+    margin-bottom: 20px;
+    padding-left: 20px;
 }
 
 .modal-body li {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     color: var(--text-secondary);
-    position: relative;
+    font-size: 0.9rem;
 }
 
 .modal-body li::before {
     content: '▸';
     color: var(--accent-color);
-    position: absolute;
-    left: -20px;
     font-weight: bold;
+    margin-right: 5px;
 }
 
 .warning {
-    background: rgba(255, 193, 7, 0.15);
-    padding: 20px;
-    border-radius: 12px;
-    border-left: 5px solid #ffc107;
-    margin-top: 25px;
-    color: var(--text-primary);
-    font-weight: 500;
+    background: rgba(255, 193, 7, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #ffc107;
+    margin-top: 20px;
+    font-size: 0.9rem;
 }
 
 .modal-footer {
-    padding: 20px 30px;
+    padding: 15px 25px;
     background: var(--card-bg);
-    border-radius: 0 0 18px 18px;
+    border-radius: 0 0 13px 13px;
     text-align: center;
 }
 
@@ -574,51 +514,50 @@ header .container {
     background: var(--accent-gradient);
     color: white;
     border: none;
-    padding: 15px 40px;
-    border-radius: 25px;
-    font-size: 1.1rem;
-    font-weight: 700;
+    padding: 12px 30px;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
 }
 
 .order-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 30px rgba(0, 212, 255, 0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* === ФУТЕР === */
 footer {
     background: var(--bg-secondary);
-    padding: 50px 0;
-    border-top: 2px solid var(--accent-color);
+    padding: 30px 0;
+    border-top: 1px solid var(--accent-color);
 }
 
 .footer-text h3 {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     color: var(--accent-color);
-    font-size: 1.5rem;
+    font-size: 1.2rem;
 }
 
 .footer-text p {
     color: var(--text-secondary);
-    margin-bottom: 25px;
-    font-size: 1.1rem;
-    line-height: 1.7;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    line-height: 1.5;
 }
 
 .contacts p {
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     color: var(--text-secondary);
-    font-size: 1.1rem;
+    font-size: 0.9rem;
 }
 
 .contacts a {
     color: var(--accent-color);
     text-decoration: none;
     transition: all 0.3s ease;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .contacts a:hover {
@@ -630,31 +569,32 @@ footer {
 @media (max-width: 768px) {
     header .container {
         flex-direction: column;
-        gap: 20px;
         text-align: center;
+        gap: 10px;
     }
     
     .hero-content {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 20px;
     }
     
     .counter-widget {
         position: static;
-        margin-top: 30px;
+        margin-top: 0;
     }
     
     .services-grid {
         grid-template-columns: 1fr;
+        gap: 15px;
     }
     
     .counter-number {
-        font-size: 2.2rem;
+        font-size: 1.5rem;
     }
     
     .modal-content {
         width: 95%;
-        margin: 5% auto;
+        margin: 2% auto;
     }
     
     .filter-buttons {
@@ -662,28 +602,33 @@ footer {
     }
     
     .small-title {
-        font-size: 1.5rem !important;
+        font-size: 1.2rem !important;
+    }
+    
+    /* На мобильных скрываем счётчик */
+    .counter-widget {
+        display: none;
     }
 }
 
 @media (max-width: 480px) {
     .hero {
-        padding: 50px 0;
+        padding: 20px 0;
     }
     
     .services {
-        padding: 50px 0;
+        padding: 20px 0;
     }
     
     .service-card {
-        margin: 0 10px;
+        margin: 0 5px;
     }
     
     .modal-body {
-        padding: 20px;
+        padding: 15px;
     }
     
     .modal-header {
-        padding: 20px;
+        padding: 15px;
     }
 }
