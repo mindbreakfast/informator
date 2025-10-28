@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INFORMATOR MEDIA - SMM специалист</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Иконки всякие подключаем, чтоб красиво было -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="theme-dark"> <!-- По умолчанию тёмная тема, потом можно переключить -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>INFORMATOR MEDIA</h1>
+                <p>SMM-специалист</p>
+            </div>
+            
+            <!-- Кнопки соцсетей с фирменными цветами -->
+            <div class="social-links">
+                <a href="#" class="social-btn youtube"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-btn vk"><i class="fab fa-vk"></i></a>
+                <a href="#" class="social-btn telegram"><i class="fab fa-telegram"></i></a>
+                <a href="#" class="social-btn tiktok"><i class="fab fa-tiktok"></i></a>
+                <!-- Остальные добавишь по аналогии -->
+            </div>
+
+            <!-- Переключатель тем - сделаем крутым -->
+            <div class="theme-switcher">
+                <input type="checkbox" id="theme-toggle" hidden>
+                <label for="theme-toggle" class="theme-btn">
+                    <span class="theme-icon"><i class="fas fa-moon"></i></span>
+                    <span class="theme-text">Тёмная тема</span>
+                </label>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <!-- Описание специалиста -->
+                <div class="about-text">
+                    <h2>Занимаюсь продвижением социальных сетей:</h2>
+                    <p>Telegram, Discord, Instagram, YouTube, Вконтакте, TikTok, KICK, Twitch, Reddit, Другие соц сети.</p>
+                    <p>Опыт в данной сфере SMM более 12 лет.</p>
+                    <p>Любые рассылки, а так же выполнение любых задач связанных с SMM</p>
+                    <p>Закупка рекламы, выполнения любых задач живыми людьми. (Голоса, участие в опросах, а так же любые другие задачи)</p>
+                </div>
+
+                <!-- Тот самый безумный счётчик -->
+                <div class="counter-widget">
+                    <div class="counter-title">Общий прирост подписчиков у клиентов:</div>
+                    <div class="counter-number" id="subs-counter">1,283,417</div>
+                    <div class="counter-graph">📈 <!-- Сюда потом CSS-график прикрутим --></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="services">
+            <div class="container">
+                <!-- Поиск и фильтры -->
+                <div class="filters-section">
+                    <div class="search-box">
+                        <input type="text" id="service-search" placeholder="Найти услугу...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    
+                    <div class="filter-buttons" id="filter-buttons">
+                        <!-- Сюда JS вставит кнопки фильтров -->
+                    </div>
+                </div>
+
+                <!-- Сетка услуг -->
+                <div class="services-grid" id="services-grid">
+                    <!-- Сюда JS будет вставлять карточки -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Модальное окно для услуг -->
+    <div class="modal" id="service-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body" id="modal-body">
+                <!-- Сюда JS загрузит описание услуги -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-text">
+                <h3>Буду рад сотрудничеству</h3>
+                <p>Если вам нужна какая-либо услуга по накрутки социальных сетей, но у меня ее нет. Напишите мне какая услуга вас интересует и мы обязательно постараемся вам помочь.</p>
+            </div>
+            
+            <div class="contacts">
+                <p>Telegram: <a href="https://t.me/informator_one" target="_blank">@informator_one</a></p>
+                <p>Email: <a href="mailto:nsdfastsite@gmail.com">nsdfastsite@gmail.com</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Подключаем скрипты -->
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
