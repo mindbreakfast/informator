@@ -8,131 +8,99 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="theme-dark">
-    <!-- Шапка -->
-    <header class="header">
+    <header>
         <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <h1>INFORMATOR MEDIA</h1>
-                    <span>SMM-специалист</span>
-                </div>
-                
-                <div class="header-controls">
-                    <div class="social-links">
-                        <a href="#" class="social-btn youtube" title="YouTube"><i class="fab fa-youtube"></i></a>
-                        <a href="#" class="social-btn vk" title="VK"><i class="fab fa-vk"></i></a>
-                        <a href="#" class="social-btn telegram" title="Telegram"><i class="fab fa-telegram"></i></a>
-                        <a href="#" class="social-btn tiktok" title="TikTok"><i class="fab fa-tiktok"></i></a>
-                    </div>
+            <div class="logo">
+                <h1>INFORMATOR MEDIA</h1>
+                <p>SMM-специалист</p>
+            </div>
+            
+            <div class="social-links">
+                <a href="#" class="social-btn youtube"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-btn vk"><i class="fab fa-vk"></i></a>
+                <a href="#" class="social-btn telegram"><i class="fab fa-telegram"></i></a>
+                <a href="#" class="social-btn tiktok"><i class="fab fa-tiktok"></i></a>
+            </div>
 
-                    <div class="theme-selector">
-                        <select id="theme-select">
-                            <option value="dark">Тёмная</option>
-                            <option value="matrix">Матрица</option>
-                            <option value="crystal">Кристал</option>
-                        </select>
-                    </div>
-                </div>
+            <div class="theme-selector">
+                <select id="theme-select">
+                    <option value="dark">Тёмная бирюза</option>
+                    <option value="matrix">Матричная</option>
+                    <option value="crystal">Кристальная</option>
+                </select>
             </div>
         </div>
     </header>
 
-    <!-- Главный блок -->
-    <main class="main">
+    <main>
         <section class="hero">
             <div class="container">
                 <div class="hero-content">
-                    <div class="hero-text">
-                        <h2>Продвижение в социальных сетях</h2>
-                        <div class="hero-description">
-                            <p><strong>Опыт в SMM - более 12 лет</strong></p>
-                            <p>Telegram, Discord, Instagram, YouTube, Вконтакте, TikTok, KICK, Twitch, Reddit</p>
-                            <p>Любые рассылки, закупка рекламы, выполнение задач живыми людьми</p>
-                        </div>
+                    <div class="about-text">
+                        <h2 class="small-title">Занимаюсь продвижением социальных сетей:</h2>
+                        <p>Telegram, Discord, Instagram, YouTube, Вконтакте, TikTok, KICK, Twitch, Reddit, Другие соц сети.</p>
+                        <p>Опыт в данной сфере SMM более 12 лет.</p>
+                        <p>Любые рассылки, а так же выполнение любых задач связанных с SMM</p>
+                        <p>Закупка рекламы, выполнения любых задач живыми людьми. (Голоса, участие в опросах, а так же любые другие задачи)</p>
                     </div>
                     
-                    <div class="counter-block">
-                        <div class="counter">
-                            <div class="counter-number" id="subs-counter">1,283,417</div>
-                            <div class="counter-label">подписчиков привлечено</div>
-                        </div>
+                    <div class="counter-widget">
+                        <div class="counter-title">Общий прирост подписчиков у клиентов:</div>
+                        <div class="counter-number" id="subs-counter">1,283,417</div>
+                        <canvas id="growth-chart" width="200" height="60"></canvas>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Услуги -->
         <section class="services">
             <div class="container">
-                <div class="services-header">
-                    <h2>Услуги продвижения</h2>
+                <div class="filters-section">
+                    <div class="search-box">
+                        <input type="text" id="service-search" placeholder="Найти услугу...">
+                        <i class="fas fa-search"></i>
+                    </div>
                     
-                    <div class="filters-section">
-                        <div class="search-box">
-                            <input type="text" id="service-search" placeholder="Поиск услуг...">
-                            <i class="fas fa-search"></i>
-                        </div>
-                        
-                        <div class="filter-buttons" id="filter-buttons">
-                            <!-- Фильтры добавит JS -->
-                        </div>
+                    <div class="filter-buttons" id="filter-buttons">
+                        <!-- Сюда JS вставит кнопки фильтров -->
                     </div>
                 </div>
 
                 <div class="services-grid" id="services-grid">
-                    <!-- Карточки добавит JS -->
+                    <!-- Сюда JS будет вставлять карточки -->
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Модальное окно -->
     <div class="modal" id="service-modal">
-        <div class="modal-overlay"></div>
-        <div class="modal-container">
+        <div class="modal-content">
             <div class="modal-header">
                 <h3 id="modal-title">Название услуги</h3>
-                <button class="modal-close">&times;</button>
+                <span class="close-modal">&times;</span>
             </div>
             <div class="modal-body" id="modal-body">
-                <!-- Контент модалки -->
+                <!-- Сюда JS загрузит описание услуги -->
             </div>
             <div class="modal-footer">
-                <button class="btn-order">
-                    <i class="fab fa-telegram"></i>
-                    Заказать в Telegram
-                </button>
+                <button class="order-btn">Заказать услугу</button>
             </div>
         </div>
     </div>
 
-    <!-- Футер -->
-    <footer class="footer">
+    <footer>
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-info">
-                    <h3>Буду рад сотрудничеству</h3>
-                    <p>Если вам нужна какая-либо услуга по накрутке социальных сетей, но у меня ее нет - напишите мне, и мы обязательно постараемся вам помочь.</p>
-                </div>
-                
-                <div class="footer-contacts">
-                    <div class="contact-item">
-                        <i class="fab fa-telegram"></i>
-                        <a href="https://t.me/informator_one" target="_blank">@informator_one</a>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <a href="mailto:nsdfastsite@gmail.com">nsdfastsite@gmail.com</a>
-                    </div>
-                </div>
+            <div class="footer-text">
+                <h3>Буду рад сотрудничеству</h3>
+                <p>Если вам нужна какая-либо услуга по накрутки социальных сетей, но у меня ее нет. Напишите мне какая услуга вас интересует и мы обязательно постараемся вам помочь.</p>
+            </div>
+            
+            <div class="contacts">
+                <p>Telegram: <a href="https://t.me/informator_one" target="_blank">@informator_one</a></p>
+                <p>Email: <a href="mailto:nsdfastsite@gmail.com">nsdfastsite@gmail.com</a></p>
             </div>
         </div>
     </footer>
-
-    <!-- Кнопка вверх -->
-    <button class="scroll-top" id="scrollTop">
-        <i class="fas fa-chevron-up"></i>
-    </button>
 
     <script src="data.js"></script>
     <script src="script.js"></script>
