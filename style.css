@@ -321,10 +321,10 @@ header .container {
     transform: translateY(-2px);
 }
 
-/* СЕТКА УСЛУГ - ИСПРАВЛЕННАЯ */
+/* СЕТКА УСЛУГ - 4 КАРТОЧКИ В РЯДУ */
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
 }
 
@@ -340,6 +340,7 @@ header .container {
     height: 100%;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .service-card:hover {
@@ -358,13 +359,6 @@ header .container {
     color: white;
 }
 
-.service-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: none; /* Скрываем картинки, используем только иконки */
-}
-
 .service-info {
     padding: 15px;
     flex: 1;
@@ -380,18 +374,31 @@ header .container {
     flex: 1;
 }
 
+/* ЦЕНЫ СПРАВА */
+.service-price-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin-top: auto;
+}
+
+.price-text {
+    text-align: right;
+}
+
 .service-price {
     font-size: 1.3rem;
     font-weight: 700;
     color: var(--accent-color);
-    margin-bottom: 3px;
     font-family: 'Courier New', monospace;
+    display: block;
 }
 
 .service-price-per {
     font-size: 0.8rem;
     color: var(--text-secondary);
     font-weight: 400;
+    display: block;
 }
 
 /* === МОДАЛЬНОЕ ОКНО === */
@@ -565,7 +572,43 @@ footer {
     text-decoration: underline;
 }
 
+/* === КНОПКА "ВВЕРХ" === */
+.scroll-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: var(--accent-gradient);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--neon-glow);
+    z-index: 1000;
+    display: none;
+}
+
+.scroll-to-top:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 25px var(--accent-color);
+}
+
 /* === АДАПТИВ ДЛЯ ТЕЛЕФОНОВ === */
+@media (max-width: 1200px) {
+    .services-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 @media (max-width: 768px) {
     header .container {
         flex-direction: column;
@@ -630,5 +673,12 @@ footer {
     
     .modal-header {
         padding: 15px;
+    }
+    
+    .scroll-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
     }
 }
