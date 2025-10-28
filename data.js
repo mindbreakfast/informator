@@ -1,4 +1,5 @@
-// Бро, тут все наши услуги хранятся. Не потеряй это, а то клиенты разбегутся!
+// Бро, тут ВСЕ наши услуги! Добавил картинки и всё остальное
+
 const servicesData = [
     {
         id: 1,
@@ -67,7 +68,6 @@ const servicesData = [
             <p class="warning">Рекомендуем уточнить у исполнителя возможные риски при слишком быстром или агрессивном увеличении количества подписчиков.</p>
         `
     },
-    // Остальные услуги добавь по аналогии, бро!
     {
         id: 3,
         name: "Рассылка по личным сообщениям групп ВКонтакте 100 сообщений",
@@ -76,11 +76,154 @@ const servicesData = [
         categories: ["вконтакте", "vk", "рассылка"],
         image: "img/vk.jpg",
         description: "Описание для рассылки ВК..."
+    },
+    {
+        id: 4,
+        name: "Живые подписчики в Vk - БЕЗ БОТОВ 100 человек",
+        price: "от 1 000 ₽",
+        pricePer: "10 000₽ за 1 000 подп.",
+        categories: ["вконтакте", "vk", "подписчики", "живые"],
+        image: "img/vk-subscribers.jpg",
+        description: "Описание для живых подписчиков ВК..."
+    },
+    {
+        id: 5,
+        name: "10.000 просмотров ваших видео в Вконтакте",
+        price: "от 500 ₽",
+        pricePer: "5 000₽ за 100 000 просм.",
+        categories: ["вконтакте", "vk", "просмотры"],
+        image: "img/vk-views.jpg",
+        description: "Описание для просмотров ВК..."
+    },
+    {
+        id: 6,
+        name: "Живые англоязычные пользователи телеграмм",
+        price: "от 1 000 ₽",
+        pricePer: "1 000₽ за 100 подп.",
+        categories: ["telegram", "подписчики", "живые", "англоязычные"],
+        image: "img/telegram-english.jpg",
+        description: "Описание для англоязычных подписчиков..."
+    },
+    {
+        id: 7,
+        name: "100 живых подписчиков Trovo",
+        price: "от 1 000 ₽",
+        pricePer: "1 000₽ за 100 подп.",
+        categories: ["trovo", "подписчики", "живые"],
+        image: "img/trovo.jpg",
+        description: "Описание для Trovo..."
+    },
+    {
+        id: 8,
+        name: "100 подписчиков для социальной сети Yappy",
+        price: "от 1 000 ₽",
+        pricePer: "1 000₽ за 100 подп.",
+        categories: ["yappy", "подписчики"],
+        image: "img/yappy.jpg",
+        description: "Описание для Yappy..."
+    },
+    {
+        id: 9,
+        name: "500 нажатий на кнопку В ТОП Rutube",
+        price: "от 1 000 ₽",
+        pricePer: "2 000₽ за 1 000 лайк.",
+        categories: ["rutube", "лайки", "взаимодействие"],
+        image: "img/rutube.jpg",
+        description: "Описание для Rutube..."
+    },
+    {
+        id: 10,
+        name: "100 000 Просмотров на пост в Telegram",
+        price: "от 500 ₽",
+        pricePer: "5₽ за 1 000 просм.",
+        categories: ["telegram", "просмотры"],
+        image: "img/telegram-views.jpg",
+        description: "Описание для просмотров Telegram..."
+    },
+    {
+        id: 11,
+        name: "Подбор Телеграм-каналов для закупа рекламы",
+        price: "25 000 ₽",
+        pricePer: "фиксированная цена",
+        categories: ["telegram", "реклама", "подбор"],
+        image: "img/telegram-ads.jpg",
+        description: "Описание для подбора каналов..."
+    },
+    {
+        id: 12,
+        name: "2000 ботов в телеграмм бота",
+        price: "от 500 ₽",
+        pricePer: "25₽ за 100 подп.",
+        categories: ["telegram", "боты", "подписчики"],
+        image: "img/telegram-bots.jpg",
+        description: "Описание для ботов Telegram..."
+    },
+    {
+        id: 13,
+        name: "Реакции на 30 будущих постов в Телеграмм",
+        price: "500 ₽",
+        pricePer: "фиксированная цена",
+        categories: ["telegram", "реакции", "взаимодействие"],
+        image: "img/telegram-reactions.jpg",
+        description: "Описание для реакций Telegram..."
+    },
+    {
+        id: 14,
+        name: "Просмотры Историй Телеграмм 10000",
+        price: "от 500 ₽",
+        pricePer: "50₽ за 1 000 просм.",
+        categories: ["telegram", "просмотры", "stories"],
+        image: "img/telegram-stories.jpg",
+        description: "Описание для просмотров историй..."
+    },
+    {
+        id: 15,
+        name: "Зрители на стрим YouTube",
+        price: "от 8 000 ₽",
+        pricePer: "80 000₽ за 1 000 просм.",
+        categories: ["youtube", "стримы", "зрители"],
+        image: "img/youtube-stream.jpg",
+        description: "Описание для зрителей стримов..."
+    },
+    {
+        id: 16,
+        name: "Просмотры Телеграмм РФ",
+        price: "от 500 ₽",
+        pricePer: "17₽ за 1 000 просм.",
+        categories: ["telegram", "просмотры", "россия"],
+        image: "img/telegram-ru.jpg",
+        description: "Описание для просмотров из РФ..."
+    },
+    {
+        id: 17,
+        name: "Подписчики в Reddit живые люди",
+        price: "от 1 500 ₽",
+        pricePer: "1 500₽ за 100 подп.",
+        categories: ["reddit", "подписчики", "живые"],
+        image: "img/reddit.jpg",
+        description: "Описание для Reddit..."
+    },
+    {
+        id: 18,
+        name: "Прослушивание вашего трека spotify",
+        price: "1 000 ₽",
+        pricePer: "фиксированная цена",
+        categories: ["spotify", "прослушивания", "музыка"],
+        image: "img/spotify.jpg",
+        description: "Описание для Spotify..."
+    },
+    {
+        id: 19,
+        name: "100 Тысяч просмотров на ваши посты в Telegram",
+        price: "от 1 000 ₽",
+        pricePer: "10₽ за 1 000 просм.",
+        categories: ["telegram", "просмотры"],
+        image: "img/telegram-posts.jpg",
+        description: "Описание для просмотров постов..."
     }
-    // Добавь остальные 15 услуг тут...
 ];
 
-// Категории для фильтров - сам придумал, но ты поправь если чё
+// Категории для фильтров
 const categories = [
     { name: "Все", filter: "all" },
     { name: "Telegram", filter: "telegram" },
