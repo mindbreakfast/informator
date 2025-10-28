@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="theme-matrix">
+<body class="theme-dark">
     <header>
         <div class="container">
             <div class="logo">
@@ -22,12 +22,12 @@
                 <a href="#" class="social-btn tiktok"><i class="fab fa-tiktok"></i></a>
             </div>
 
-            <div class="theme-switcher">
-                <input type="checkbox" id="theme-toggle" hidden>
-                <label for="theme-toggle" class="theme-btn">
-                    <span class="theme-icon"><i class="fas fa-gem"></i></span>
-                    <span class="theme-text">Кристальная тема</span>
-                </label>
+            <div class="theme-selector">
+                <select id="theme-select">
+                    <option value="dark">Тёмная бирюза</option>
+                    <option value="matrix">Матричная</option>
+                    <option value="crystal">Кристальная</option>
+                </select>
             </div>
         </div>
     </header>
@@ -47,7 +47,7 @@
                     <div class="counter-widget">
                         <div class="counter-title">Общий прирост подписчиков у клиентов:</div>
                         <div class="counter-number" id="subs-counter">1,283,417</div>
-                        <canvas id="growth-chart" width="300" height="80"></canvas>
+                        <canvas id="growth-chart" width="200" height="60"></canvas>
                     </div>
                 </div>
             </div>
@@ -73,7 +73,6 @@
         </section>
     </main>
 
-    <!-- Модальное окно для услуг -->
     <div class="modal" id="service-modal">
         <div class="modal-content">
             <div class="modal-header">
