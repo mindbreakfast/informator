@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="theme-dark">
+<body class="theme-dark-old">
     <header>
         <div class="container">
             <div class="logo">
@@ -20,13 +20,12 @@
                     <a href="#" class="social-btn youtube"><i class="fab fa-youtube"></i></a>
                     <a href="#" class="social-btn vk"><i class="fab fa-vk"></i></a>
                     <a href="#" class="social-btn telegram"><i class="fab fa-telegram"></i></a>
-                    <a href="#" class="social-btn instagram"><i class="fab fa-instagram"></i></a>
                 </div>
 
                 <div class="theme-selector">
                     <select id="theme-select">
-                        <option value="dark">Чёрная бирюза</option>
                         <option value="dark-old">Тёмная бирюза</option>
+                        <option value="dark">Чёрная бирюза</option>
                         <option value="matrix">Матричная</option>
                         <option value="crystal">Кристальная</option>
                     </select>
@@ -44,14 +43,14 @@
                         <p>Telegram, Discord, Instagram, YouTube, Вконтакте, TikTok, KICK, Twitch, Reddit, Другие соц сети.</p>
                         <p>Опыт в данной сфере SMM более 12 лет.</p>
                         <p>Любые рассылки, а так же выполнение любых задач связанных с SMM</p>
-                        <p>Закупка рекламы, выполнения любых задач живыми людьми. (Голоса, участие в опросах, а так же любые другие задачи)</p>
+                        <p id="typing-text">Закупка рекламы, выполнения любых задач живыми людьми. (Голоса, участие в опросах, а так же любые другие задачи)</p>
                     </div>
                     
                     <div class="counter-widget">
                         <div class="counter-title">Общий прирост подписчиков у клиентов:</div>
                         <div class="counter-number" id="subs-counter">1,283,417</div>
-                        <div class="counter-animation" id="counter-animation">
-                            <!-- Анимация будет здесь -->
+                        <div class="graph-container">
+                            <canvas id="growth-graph" width="200" height="80"></canvas>
                         </div>
                     </div>
                 </div>
