@@ -1,4 +1,4 @@
-// Бро, тут ВСЯ магия! Графики, анимации, всё что душе угодно!
+// Бро, тут всё исправлено! График теперь работает как надо!
 
 document.addEventListener('DOMContentLoaded', function() {
     initThemeSwitcher();
@@ -9,43 +9,27 @@ document.addEventListener('DOMContentLoaded', function() {
     initGrowthChart();
 });
 
-// === ПЕРЕКЛЮЧАТЕЛЬ ТЕМ ===
+// === ПЕРЕКЛЮЧАТЕЛЬ ТРЕХ ТЕМ ===
 function initThemeSwitcher() {
-    const themeToggle = document.getElementById('theme-toggle');
-    const themeText = document.querySelector('.theme-text');
-    const themeIcon = document.querySelector('.theme-icon i');
+    const themeSelect = document.getElementById('theme-select');
     
-    const savedTheme = localStorage.getItem('theme') || 'matrix';
-    if (savedTheme === 'crystal') {
-        document.body.classList.remove('theme-matrix');
-        document.body.classList.add('theme-crystal');
-        themeToggle.checked = true;
-        themeText.textContent = 'Матричная тема';
-        themeIcon.className = 'fas fa-matrix';
-    }
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    themeSelect.value = savedTheme;
+    document.body.className = 'theme-' + savedTheme;
     
-    themeToggle.addEventListener('change', function() {
-        if (this.checked) {
-            document.body.classList.remove('theme-matrix');
-            document.body.classList.add('theme-crystal');
-            themeText.textContent = 'Матричная тема';
-            themeIcon.className = 'fas fa-matrix';
-            localStorage.setItem('theme', 'crystal');
-        } else {
-            document.body.classList.remove('theme-crystal');
-            document.body.classList.add('theme-matrix');
-            themeText.textContent = 'Кристальная тема';
-            themeIcon.className = 'fas fa-gem';
-            localStorage.setItem('theme', 'matrix');
-        }
+    themeSelect.addEventListener('change', function() {
+        const theme = this.value;
+        document.body.className = 'theme-' + theme;
+        localStorage.setItem('theme', theme);
     });
 }
 
-// === УСЛУГИ С КАРТИНКАМИ ===
+// === УСЛУГИ С ЗАГЛУШКАМИ ВМЕСТО КАРТИНОК ===
 function initServices() {
     const servicesGrid = document.getElementById('services-grid');
     const filterButtons = document.getElementById('filter-buttons');
     
+    // Создаём кнопки фильтров
     categories.forEach(category => {
         const button = document.createElement('button');
         button.className = 'filter-btn';
@@ -55,6 +39,7 @@ function initServices() {
         filterButtons.appendChild(button);
     });
     
+    // Показываем все услуги
     renderServices(servicesData);
     
     function renderServices(services) {
@@ -63,11 +48,13 @@ function initServices() {
         services.forEach(service => {
             const card = document.createElement('div');
             card.className = 'service-card';
+            
+            // Определяем иконку для услуги
+            const icon = getServiceIcon(service.categories);
+            
             card.innerHTML = `
                 <div class="service-image">
-                    <img src="${service.image}" alt="${service.name}" onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\"fas fa-users\"></i>
-                                    <div class="service-image">
-                    <img src="${service.image}" alt="${service.name}" onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\"fas fa-users\"></i>'">
+                    <i class="${icon}"></i>
                 </div>
                 <div class="service-info">
                     <h3>${service.name}</h3>
@@ -98,9 +85,23 @@ function initServices() {
             renderServices(filteredServices);
         }
     }
+    
+    function getServiceIcon(categories) {
+        if (categories.includes('telegram')) return 'fab fa-telegram';
+        if (categories.includes('vk') || categories.includes('вконтакте')) return 'fab fa-vk';
+        if (categories.includes('youtube')) return 'fab fa-youtube';
+        if (categories.includes('tiktok')) return 'fab fa-tiktok';
+        if (categories.includes('spotify')) return 'fab fa-spotify';
+        if (categories.includes('reddit')) return 'fab fa-reddit';
+        if (categories.includes('просмотры')) return 'fas fa-eye';
+        if (categories.includes('подписчики')) return 'fas fa-users';
+        if (categories.includes('лайки') || categories.includes('реакции')) return 'fas fa-heart';
+        if (categories.includes('рассылка')) return 'fas fa-envelope';
+        return 'fas fa-rocket';
+    }
 }
 
-// === УМНЫЙ ПОИСК С РАСКЛАДКАМИ ===
+// === ПОИСК ===
 function initSearch() {
     const searchInput = document.getElementById('service-search');
     
@@ -139,17 +140,17 @@ function initSearch() {
     });
 }
 
-// === СУМАСШЕДШИЙ СЧЁТЧИК С ГРАФИКОМ ===
+// === СЧЁТЧИК ===
 function initCounter() {
     const counterElement = document.getElementById('subs-counter');
     let currentCount = 1283417;
     
-    animateCounter(0, currentCount, 2000);
+    animateCounter(1000000, currentCount, 1500);
     
     setInterval(() => {
-        currentCount += Math.floor(Math.random() * 15) + 5;
+        currentCount += Math.floor(Math.random() * 8) + 3;
         counterElement.textContent = formatNumber(currentCount);
-    }, 2000);
+    }, 3000);
     
     function animateCounter(start, end, duration) {
         let startTime = null;
@@ -175,20 +176,19 @@ function initCounter() {
     }
 }
 
-// === АНИМИРОВАННЫЙ ГРАФИК РОСТА ===
+// === РАБОЧИЙ ГРАФИК РОСТА ===
 function initGrowthChart() {
     const canvas = document.getElementById('growth-chart');
     const ctx = canvas.getContext('2d');
     
     let points = [];
-    let animationFrame;
-    let time = 0;
+    const pointCount = 20;
     
-    // Инициализируем начальные точки
-    for (let i = 0; i <= 30; i++) {
+    // Инициализируем точки с восходящим трендом
+    for (let i = 0; i < pointCount; i++) {
         points.push({
-            x: i * (canvas.width / 30),
-            y: canvas.height - Math.random() * 20
+            x: i * (canvas.width / (pointCount - 1)),
+            y: canvas.height - 10 - (i * 2) - Math.random() * 10
         });
     }
     
@@ -196,22 +196,7 @@ function initGrowthChart() {
         // Очищаем canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        // Рисуем сетку
-        ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--text-secondary');
-        ctx.lineWidth = 0.5;
-        ctx.setLineDash([2, 2]);
-        
-        for (let i = 0; i <= 5; i++) {
-            const y = i * (canvas.height / 5);
-            ctx.beginPath();
-            ctx.moveTo(0, y);
-            ctx.lineTo(canvas.width, y);
-            ctx.stroke();
-        }
-        
-        ctx.setLineDash([]);
-        
-        // Рисуем линию графика
+        // Рисуем плавную линию графика
         ctx.beginPath();
         ctx.moveTo(points[0].x, points[0].y);
         
@@ -222,7 +207,7 @@ function initGrowthChart() {
         }
         
         ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent-color');
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 2;
         ctx.stroke();
         
         // Градиент под линией
@@ -236,25 +221,22 @@ function initGrowthChart() {
         ctx.fillStyle = gradient;
         ctx.fill();
         
-        // Анимируем точки - двигаем влево и добавляем новые
-        time++;
-        if (time % 2 === 0) {
-            points.shift();
-            
-            const lastPoint = points[points.length - 1];
-            points.push({
-                x: lastPoint.x + (canvas.width / 30),
-                y: Math.max(10, Math.min(canvas.height - 10, lastPoint.y + (Math.random() - 0.5) * 15))
-            });
-        }
+        // Анимируем график - двигаем точки влево и добавляем новые справа
+        points.shift();
         
-        animationFrame = requestAnimationFrame(drawChart);
+        const lastPoint = points[points.length - 1];
+        points.push({
+            x: lastPoint.x + (canvas.width / (pointCount - 1)),
+            y: Math.max(5, Math.min(canvas.height - 5, lastPoint.y + (Math.random() - 0.3) * 8))
+        });
+        
+        requestAnimationFrame(drawChart);
     }
     
     drawChart();
 }
 
-// === КРУТОЕ МОДАЛЬНОЕ ОКНО ===
+// === МОДАЛЬНОЕ ОКНО ===
 function initModal() {
     const modal = document.getElementById('service-modal');
     const closeBtn = document.querySelector('.close-modal');
@@ -274,7 +256,6 @@ function initModal() {
         }
     });
     
-    // Кнопка заказа в модалке
     document.querySelector('.order-btn').addEventListener('click', function() {
         alert('Отлично! Свяжись со мной в Telegram: @informator_one для заказа услуги!');
         closeModal();
@@ -290,28 +271,15 @@ function openModal(service) {
     modalBody.innerHTML = service.description;
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden';
-    
-    // Добавляем плавное появление контента
-    setTimeout(() => {
-        modalBody.style.opacity = '1';
-        modalBody.style.transform = 'translateY(0)';
-    }, 100);
 }
 
 function closeModal() {
     const modal = document.getElementById('service-modal');
-    const modalBody = document.getElementById('modal-body');
-    
-    modalBody.style.opacity = '0';
-    modalBody.style.transform = 'translateY(20px)';
-    
-    setTimeout(() => {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }, 300);
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
 }
 
-// Функция для рендера услуг (нужна для поиска и фильтров)
+// Функция для рендера услуг
 function renderServices(services) {
     const servicesGrid = document.getElementById('services-grid');
     servicesGrid.innerHTML = '';
@@ -319,9 +287,11 @@ function renderServices(services) {
     services.forEach(service => {
         const card = document.createElement('div');
         card.className = 'service-card';
+        const icon = getServiceIcon(service.categories);
+        
         card.innerHTML = `
             <div class="service-image">
-                <img src="${service.image}" alt="${service.name}" onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\"fas fa-users\"></i>'">
+                <i class="${icon}"></i>
             </div>
             <div class="service-info">
                 <h3>${service.name}</h3>
@@ -334,16 +304,16 @@ function renderServices(services) {
     });
 }
 
-// Плавная прокрутка для всех якорей
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
+function getServiceIcon(categories) {
+    if (categories.includes('telegram')) return 'fab fa-telegram';
+    if (categories.includes('vk') || categories.includes('вконтакте')) return 'fab fa-vk';
+    if (categories.includes('youtube')) return 'fab fa-youtube';
+    if (categories.includes('tiktok')) return 'fab fa-tiktok';
+    if (categories.includes('spotify')) return 'fab fa-spotify';
+    if (categories.includes('reddit')) return 'fab fa-reddit';
+    if (categories.includes('просмотры')) return 'fas fa-eye';
+    if (categories.includes('подписчики')) return 'fas fa-users';
+    if (categories.includes('лайки') || categories.includes('реакции')) return 'fas fa-heart';
+    if (categories.includes('рассылка')) return 'fas fa-envelope';
+    return 'fas fa-rocket';
+}
