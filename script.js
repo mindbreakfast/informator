@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initCounter();
     initModal();
     initGrowthChart();
+    initScrollToTop();
 });
 
 // === ПЕРЕКЛЮЧАТЕЛЬ ТРЕХ ТЕМ ===
@@ -58,8 +59,12 @@ function initServices() {
                 </div>
                 <div class="service-info">
                     <h3>${service.name}</h3>
-                    <div class="service-price">${service.price}</div>
-                    <div class="service-price-per">${service.pricePer}</div>
+                    <div class="service-price-container">
+                        <div class="price-text">
+                            <div class="service-price">${service.price}</div>
+                            <div class="service-price-per">${service.pricePer}</div>
+                        </div>
+                    </div>
                 </div>
             `;
             card.addEventListener('click', () => openModal(service));
@@ -176,23 +181,26 @@ function initCounter() {
     }
 }
 
-// === РАБОЧИЙ ГРАФИК РОСТА ===
+// === РАБОЧИЙ ГРАФИК РОСТА - ПОСТОЯННО ВИДЕН ===
 function initGrowthChart() {
     const canvas = document.getElementById('growth-chart');
     const ctx = canvas.getContext('2d');
     
     let points = [];
-    const pointCount = 20;
+    const pointCount = 15;
+    let frameCount = 0;
     
-    // Инициализируем точки с восходящим трендом
+    // Инициализируем точки с явным восходящим трендом
     for (let i = 0; i < pointCount; i++) {
         points.push({
             x: i * (canvas.width / (pointCount - 1)),
-            y: canvas.height - 10 - (i * 2) - Math.random() * 10
+            y: canvas.height - 15 - (i * 3)
         });
     }
     
     function drawChart() {
+        frameCount++;
+        
         // Очищаем canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
@@ -207,12 +215,13 @@ function initGrowthChart() {
         }
         
         ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent-color');
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 3;
         ctx.stroke();
         
         // Градиент под линией
         const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-        gradient.addColorStop(0, getComputedStyle(document.documentElement).getPropertyValue('--accent-color') + '40');
+        const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color');
+        gradient.addColorStop(0, accentColor + '40');
         gradient.addColorStop(1, 'transparent');
         
         ctx.lineTo(points[points.length - 1].x, canvas.height);
@@ -221,19 +230,48 @@ function initGrowthChart() {
         ctx.fillStyle = gradient;
         ctx.fill();
         
-        // Анимируем график - двигаем точки влево и добавляем новые справа
-        points.shift();
-        
-        const lastPoint = points[points.length - 1];
-        points.push({
-            x: lastPoint.x + (canvas.width / (pointCount - 1)),
-            y: Math.max(5, Math.min(canvas.height - 5, lastPoint.y + (Math.random() - 0.3) * 8))
-        });
+        // Медленная анимация - двигаем точки каждые 10 кадров
+        if (frameCount % 10 === 0) {
+            points.shift();
+            
+            const lastPoint = points[points.length - 1];
+            // Гарантируем восходящий тренд
+            const newY = Math.max(10, Math.min(canvas.height - 10, lastPoint.y - 1 + Math.random() * 3));
+            
+            points.push({
+                x: lastPoint.x + (canvas.width / (pointCount - 1)),
+                y: newY
+            });
+        }
         
         requestAnimationFrame(drawChart);
     }
     
     drawChart();
+}
+
+// === КНОПКА "ВВЕРХ" ===
+function initScrollToTop() {
+    const scrollBtn = document.createElement('button');
+    scrollBtn.className = 'scroll-to-top';
+    scrollBtn.innerHTML = '<i class="fas fa-chevron-up"></i>';
+    scrollBtn.style.display = 'none';
+    document.body.appendChild(scrollBtn);
+    
+    scrollBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+    
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            scrollBtn.style.display = 'block';
+        } else {
+            scrollBtn.style.display = 'none';
+        }
+    });
 }
 
 // === МОДАЛЬНОЕ ОКНО ===
@@ -279,31 +317,7 @@ function closeModal() {
     document.body.style.overflow = 'auto';
 }
 
-// Функция для рендера услуг
-function renderServices(services) {
-    const servicesGrid = document.getElementById('services-grid');
-    servicesGrid.innerHTML = '';
-    
-    services.forEach(service => {
-        const card = document.createElement('div');
-        card.className = 'service-card';
-        const icon = getServiceIcon(service.categories);
-        
-        card.innerHTML = `
-            <div class="service-image">
-                <i class="${icon}"></i>
-            </div>
-            <div class="service-info">
-                <h3>${service.name}</h3>
-                <div class="service-price">${service.price}</div>
-                <div class="service-price-per">${service.pricePer}</div>
-            </div>
-        `;
-        card.addEventListener('click', () => openModal(service));
-        servicesGrid.appendChild(card);
-    });
-}
-
+// Функция для определения иконки услуги
 function getServiceIcon(categories) {
     if (categories.includes('telegram')) return 'fab fa-telegram';
     if (categories.includes('vk') || categories.includes('вконтакте')) return 'fab fa-vk';
